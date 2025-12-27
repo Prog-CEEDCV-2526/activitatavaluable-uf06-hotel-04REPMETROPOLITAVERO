@@ -129,6 +129,8 @@ public class App {
             case 5:
                 obtindreReserva();
                 break;
+            case 6:
+                break;
             default:
                 System.out.println("Per favor, introduïsca un número de l'1 al 6");
                 break;
@@ -215,7 +217,7 @@ public class App {
                 if(!"0".equals(disponibilitatHabitacions.get(TIPUS_DELUXE))){
                     int actual = disponibilitatHabitacions.get(TIPUS_DELUXE);
                     disponibilitatHabitacions.put(TIPUS_DELUXE, actual - 1);
-                    System.out.println("Has seleccionat l'habitació SUITE");
+                    System.out.println("Has seleccionat l'habitació DELUXE");
                     // ¿que retorna?
                 }else{
                     return null;}
@@ -327,10 +329,17 @@ Vol afegir un servei? (s/n): n
      * Genera i retorna un codi de reserva únic de tres xifres
      * (entre 100 i 999) que no estiga repetit.
      */
-    public static int generarCodiReserva() {
-        //TODO:
-
-        return 0;
+    public static int generarCodiReserva(HashMap<Integer, ArrayList<String>> reserves) {
+        /**TODO:
+         Generador de nombres aleatoris per als codis de reserva
+        public static Random random = new Random();
+        */
+        int codi;
+        do {
+            codi = random.nextInt(900) + 100;
+        } while (reserves.containsKey(codi));
+             
+        return codi;
     }
 
     /**
