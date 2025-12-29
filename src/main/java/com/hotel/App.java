@@ -129,12 +129,10 @@ public class App {
             case 5:
                 obtindreReserva();
                 break;
-            case 6:
-                break;
             default:
                 System.out.println("Per favor, introduïsca un número de l'1 al 6");
                 break;
-        }
+    
        //demanar opció i asociarla a un valor del 1 al 5
        //retornar opció seleccionada
        //
@@ -203,6 +201,7 @@ public class App {
                     disponibilitatHabitacions.put(TIPUS_ESTANDARD, actual - 1);
                     System.out.println("Has seleccionat l'habitació ESTANDARD");
                     // ¿que retorna?
+                    return TIPUS_ESTANDARD;
                 }else{
                     return null;}
             case "Suite":
@@ -211,6 +210,7 @@ public class App {
                     disponibilitatHabitacions.put(TIPUS_SUITE, actual - 1);
                     System.out.println("Has seleccionat l'habitació SUITE");
                     // ¿que retorna?
+                    return TIPUS_SUITE;
                 }else{
                     return null;}
             case "Deluxe":
@@ -219,6 +219,7 @@ public class App {
                     disponibilitatHabitacions.put(TIPUS_DELUXE, actual - 1);
                     System.out.println("Has seleccionat l'habitació DELUXE");
                     // ¿que retorna?
+                    return TIPUS_DELUXE;
                 }else{
                     return null;}
         }
@@ -230,99 +231,91 @@ public class App {
      */
     public static ArrayList<String> seleccionarServeis() {
         //TODO:
-    /**Serveis addicionals
-    public static final String SERVEI_ESMORZAR = "Esmorzar";
-    public static final String SERVEI_GIMNAS = "Gimnàs";
-    public static final String SERVEI_SPA = "Spa";
-    public static final String SERVEI_PISCINA = "Piscina";
+        /**Serveis addicionals
+        public static final String SERVEI_ESMORZAR = "Esmorzar";
+        public static final String SERVEI_GIMNAS = "Gimnàs";
+        public static final String SERVEI_SPA = "Spa";
+        public static final String SERVEI_PISCINA = "Piscina";
 
-    Scanner únic
-    public static Scanner sc = new Scanner(System.in);
+        Scanner únic
+        public static Scanner sc = new Scanner(System.in);
 
-    hashmap preus
-    public static HashMap<String, Float> preusServeis = new HashMap<String, Float>();
+        hashmap preus
+        public static HashMap<String, Float> preusServeis = new HashMap<String, Float>();
 
-*/
+        */
 
-   // 
-   ArrayList<String> serveis = new ArrayList<>();
-   System.out.println("Serveis addicionals (0-4):");
-   System.out.println("0. Finalitzar");
-   System.out.println("1. Esmorzar (10€)");
-   System.out.println("2. Gimnàs (15€)");
-   System.out.println("3. Spa (20€)");
-   System.out.println("4. Piscina (25€)");
+        ArrayList<String> serveis = new ArrayList<>();
+        System.out.println("Serveis addicionals (0-4):");
+        System.out.println("0. Finalitzar");
+        System.out.println("1. Esmorzar (10€)");
+        System.out.println("2. Gimnàs (15€)");
+        System.out.println("3. Spa (20€)");
+        System.out.println("4. Piscina (25€)");
    
-   //bucle do while
-   do {
-        System.out.println("Vol afegir un servei? (s/n):");
-        String respuesta = sc.nextLine().trim();
-        if(respuesta.equalsIgnoreCase("s")){
-            System.out.println("Seleccione servei:");
-            int tipoServei = sc.nextInt();
-            String nouServei = null;
-            switch(tipoServei){
-                case 0:
-                    respuesta = "n";
-                    break;
-                case 1:
-                    nouServei = SERVEI_ESMORZAR;
-                    break;
-                case 2:
-                    nouServei = SERVEI_GIMNAS;
-                    break;
-                case 3:
-                    nouServei = SERVEI_SPA;
-                    break;
-                case 4:
-                    nouServei = SERVEI_PISCINA;
-                    break;
-                default:
-                    System.out.println("Opció no vàlida");
+        //bucle do while
+        String respuesta;
+
+        do {
+            System.out.println("Vol afegir un servei? (s/n):");
+            respuesta = sc.nextLine().trim();
+
+            if(respuesta.equalsIgnoreCase("s")){
+                System.out.println("Seleccione servei:");
+                int tipoServei = sc.nextInt();
+                String nouServei = null;
+                switch(tipoServei){
+                    case 0:
+                        respuesta = "n"; // para salir del do while
+                        break;
+                    case 1:
+                        nouServei = SERVEI_ESMORZAR;
+                        break;
+                    case 2:
+                        nouServei = SERVEI_GIMNAS;
+                        break;
+                    case 3:
+                        nouServei = SERVEI_SPA;
+                        break;
+                    case 4:
+                        nouServei = SERVEI_PISCINA;
+                        break;
+                    default:
+                        System.out.println("Opció no vàlida");
+                }
+                if (nouServei != null) {
+                    if (!serveis.contains(nouServei)) {
+                        serveis.add(nouServei);
+                        System.out.println("Servei afegit: " + nouServei);
+                    }   else {
+                        System.out.println("Servei ja seleccionat");
+                        }
+                }
             }
-        if (nouServei != null) {
-            if (!serveis.contains(nouServei)) {
-                serveis.add(nouServei);
-                System.out.println("Servei afegit: " + nouServei);
-            } else {
-                System.out.println("Servei ja seleccionat");
-            }
-        }
-    } while (respuesta.equalsIgnoreCase("s"));                    
-           
-
-/**
-
-
-
-
-
- s Seleccione servei: 1
-
-Servei afegit: Esmorzar
-
-Vol afegir un servei? (s/n): s
-
-Seleccione servei: 4
-
-Servei afegit: Piscina
-
-Vol afegir un servei? (s/n): n
-
-
-    */    
-
-
-        return null;
+        } while (respuesta.equalsIgnoreCase("s"));                    
+        
+        return serveis;
     }
 
     /**
      * Calcula i retorna el cost total de la reserva, incloent l'habitació,
      * els serveis seleccionats i l'IVA.
      */
-    public static float calcularPreuTotal(String tipusHabitacio, ArrayList<String> serveisSeleccionats) {
+    public static float calcularPreuTotal() {
         //TODO:
-        return 0;
+        float preuTotal = 0f;
+        ArrayList<String>serveis = seleccionarServeis();
+        String tipusHabitacio = seleccionarTipusHabitacioDisponible();
+        
+        // precio habitación
+        preuTotal += preusHabitacions.get(tipusHabitacio);
+        
+        // precio servicios
+        for (int i = 0; i < serveis.size(); i++) {
+            String servei = serveis.get(i);
+            preuTotal += preusServeis.get(servei);
+        }
+        return preuTotal;
     }
 
     /**
@@ -335,8 +328,9 @@ Vol afegir un servei? (s/n): n
         public static Random random = new Random();
         */
         int codi;
+        
         do {
-            codi = random.nextInt(900) + 100;
+            codi = random.nextInt(900) + 100
         } while (reserves.containsKey(codi));
              
         return codi;
@@ -350,7 +344,13 @@ Vol afegir un servei? (s/n): n
         System.out.println("\n===== ALLIBERAR HABITACIÓ =====");
          // TODO: Demanar codi, tornar habitació i eliminar reserva
         System.out.println("Introduïx codi de reserva");
-        
+        int codi = sc.nextInt();
+        if (reserves.containsKey(codi)) {
+            System.out.println("Dades de la reserva:");
+            System.out.println("Dades de la reserva:");
+            System.out.println("Dades de la reserva:");
+            System.out.println("Dades de la reserva:");
+        }
         }
 
     /**
