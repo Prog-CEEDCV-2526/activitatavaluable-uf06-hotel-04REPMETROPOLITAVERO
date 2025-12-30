@@ -146,9 +146,34 @@ public class App {
     public static void reservarHabitacio() {
         System.out.println("\n===== RESERVAR HABITACIÓ =====");
         //TODO:
-        seleccionarTipusHabitacioDisponible();
+       
+        //devuelve tipo de habitacion
+        String tipusHabitacio = seleccionarTipusHabitacioDisponible();
+        seleccionarTipusHabitacio();
+        //devuelve arrraylist de servicios
+        ArrayList<String> serveis = seleccionarServeis();
+        //devuelve precio total
+        float preuTotal = calcularPreuTotal();
+        String preuTot = Float.toString(preuTotal);
+        //crear arraylist con estos datos
+        ArrayList<String> infoReserves = new ArrayList<>(); 
+        infoReserves.add(tipusHabitacio); // pos 0
+        infoReserves.add(preuTot);      // pos 1
 
-        //
+            for (int i = 0; i < serveis.size(); i++) {
+                String servei = serveis.get(i);
+            infoReserves.add(servei);     // pos 2, 3, 4, 5
+            }
+        // Rellenar hasta tener 6 elementos
+        while (infoReserves.size() < 6) {
+        infoReserves.add(null);
+        }
+        System.out.println("Reserva creada amb èxit!");
+        //devuelve codigo
+        int codi=generarCodiReserva();
+        System.out.println("Codi de reserva: "+codi);
+        reserves.put(codi,infoReserves);
+
     }
 
     /**
@@ -204,7 +229,8 @@ public class App {
                     return tipusDeHabitacio;
                 }else{
                     System.out.println("No hi ha disponibilitat d'aquest tipus d'habitació.");
-                    return null;}
+                    return null;
+                }
             
         
     }
@@ -288,12 +314,24 @@ public class App {
      */
     public static float calcularPreuTotal() {
         //TODO:
+        System.out.println("Calculem el total...");
         float preuTotal = 0f;
-        ArrayList<String>serveis = seleccionarServeis();
-        String tipusHabitacio = seleccionarTipusHabitacioDisponible();
-        
+        String tipusDeHabitacio = seleccionarTipusHabitacio();
+        System.out.println("Preu habitació: "+preusHabitacions.get(tipusDeHabitacio));
+        ArrayList<String> serveis = seleccionarServeis();
+        System.out.println("Serveis: ");
+        for (int i = 0; i < serveis.size(); i++) {
+            String servei = serveis.get(i);
+            Float preu = preusServeis.get(servei);
+            System.out.print(servei + " (" + preu + "€)");
+            //para que aparezca con comas y no imprima la ultima
+                if (i < serveis.size() - 1) {
+                    System.out.print(", ");
+                }
+        }
+        System.out.println();
         // precio habitación, considerar que el campo podria estar vacio
-        Float preuHab = preusHabitacions.get(tipusHabitacio);
+        Float preuHab = preusHabitacions.get(tipusDeHabitacio);
         if (preuHab != null) {
         preuTotal += preuHab;
         }
@@ -305,23 +343,27 @@ public class App {
                 preuTotal += preuServei;
             }
         }
-        return preuTotal;
+        System.out.println("Subtotal: "+preuTotal+"€");
+        Float preuIVA=preuTotal*IVA;
+        Float preuTotalIVA=preuTotal+preuIVA;
+        System.out.println("IVA (21%): "+preuIVA+"€");
+        System.out.println("TOTAL: "+preuTotalIVA+"€");
+        return preuTotalIVA;
     }
 
     /**
      * Genera i retorna un codi de reserva únic de tres xifres
      * (entre 100 i 999) que no estiga repetit.
      */
-    public static int generarCodiReserva(HashMap<Integer, ArrayList<String>> reserves) {
+    public static int generarCodiReserva() {
         /**TODO:
-         Generador de nombres aleatoris per als codis de reserva
+        Generador de nombres aleatoris per als codis de reserva
         public static Random random = new Random();
         */
         int codi; 
             do {
                 codi = random.nextInt(900) + 100;
             } while (reserves.containsKey(codi));
-             
         return codi;
     }
 
@@ -338,15 +380,20 @@ public class App {
 
         if (reserves.containsKey(codi)) {
             // liberar la habitación
+            System.out.println("Reserva trobada!");
             // incrementar disponibilidad
+            String tipusHabitacio = reserves.get(codi).get(0);
             // eliminar la reserva del hashmap
+            reserves.remove(codi);
             System.out.println("Habitació alliberada correctament.");
+            // incrementar disponibilidad
+            Integer actual = disponibilitatHabitacions.get(tipusHabitacio);
+            disponibilitatHabitacions.put(tipusHabitacio, actual + 1);
+            System.out.println("Disponibilitat actualitzada.");
         } else {
             System.out.println("No existeix cap reserva amb aquest codi.");
             }
     }
-        
-
     /**
      * Mostra la disponibilitat actual de les habitacions (lliures i ocupades).
      */
