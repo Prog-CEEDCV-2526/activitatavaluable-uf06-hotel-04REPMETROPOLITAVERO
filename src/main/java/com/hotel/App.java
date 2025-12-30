@@ -148,26 +148,22 @@ public class App {
         //TODO:
        
         //devuelve tipo de habitacion
-        String tipusHabitacio = seleccionarTipusHabitacioDisponible();
-        seleccionarTipusHabitacio();
+        String tipus = seleccionarTipusHabitacioDisponible();
         //devuelve arrraylist de servicios
         ArrayList<String> serveis = seleccionarServeis();
         //devuelve precio total
-        float preuTotal = calcularPreuTotal();
+        float preuTotal = calcularPreuTotal(tipus, serveis);
         String preuTot = Float.toString(preuTotal);
         //crear arraylist con estos datos
         ArrayList<String> infoReserves = new ArrayList<>(); 
-        infoReserves.add(tipusHabitacio); // pos 0
+        infoReserves.add(tipus); // pos 0
         infoReserves.add(preuTot);      // pos 1
 
             for (int i = 0; i < serveis.size(); i++) {
                 String servei = serveis.get(i);
             infoReserves.add(servei);     // pos 2, 3, 4, 5
             }
-        // Rellenar hasta tener 6 elementos
-        while (infoReserves.size() < 6) {
-        infoReserves.add(null);
-        }
+
         System.out.println("Reserva creada amb èxit!");
         //devuelve codigo
         int codi=generarCodiReserva();
@@ -218,15 +214,15 @@ public class App {
         
         //Seleccione tipus d’habitació: 2
         //toma la opción del usuario y retorna el tipo de hab seleccionada
-        String tipusDeHabitacio = seleccionarTipusHabitacio(); 
+        String tipus = seleccionarTipusHabitacio(); 
         
-        Integer actual = disponibilitatHabitacions.get(tipusDeHabitacio);
+        Integer actual = disponibilitatHabitacions.get(tipus);
 
                 if (actual != null && actual > 0){
-                    disponibilitatHabitacions.put(tipusDeHabitacio, actual - 1);
-                    System.out.println("Has seleccionat l'habitació"+ tipusDeHabitacio);
+                    disponibilitatHabitacions.put(tipus, actual - 1);
+                    System.out.println("Has seleccionat l'habitació"+ tipus);
                     // ¿que retorna?
-                    return tipusDeHabitacio;
+                    return tipus;
                 }else{
                     System.out.println("No hi ha disponibilitat d'aquest tipus d'habitació.");
                     return null;
@@ -312,13 +308,11 @@ public class App {
      * Calcula i retorna el cost total de la reserva, incloent l'habitació,
      * els serveis seleccionats i l'IVA.
      */
-    public static float calcularPreuTotal() {
+    public static float calcularPreuTotal(String tipus, ArrayList<String> serveis) {
         //TODO:
         System.out.println("Calculem el total...");
         float preuTotal = 0f;
-        String tipusDeHabitacio = seleccionarTipusHabitacio();
-        System.out.println("Preu habitació: "+preusHabitacions.get(tipusDeHabitacio));
-        ArrayList<String> serveis = seleccionarServeis();
+        System.out.println("Preu habitació: "+preusHabitacions.get(tipus));
         System.out.println("Serveis: ");
         for (int i = 0; i < serveis.size(); i++) {
             String servei = serveis.get(i);
@@ -331,7 +325,7 @@ public class App {
         }
         System.out.println();
         // precio habitación, considerar que el campo podria estar vacio
-        Float preuHab = preusHabitacions.get(tipusDeHabitacio);
+        Float preuHab = preusHabitacions.get(tipus);
         if (preuHab != null) {
         preuTotal += preuHab;
         }
