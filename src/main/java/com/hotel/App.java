@@ -433,6 +433,7 @@ public class App {
     public static void obtindreReservaPerTipus() {
         System.out.println("\n===== CONSULTAR RESERVES PER TIPUS =====");
         // TODO: Llistar reserves per tipus
+   
     }
 
     /**
