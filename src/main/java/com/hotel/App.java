@@ -255,10 +255,10 @@ public class App {
         ArrayList<String> serveisSeleccionats = new ArrayList<>();
         System.out.println("Serveis addicionals (0-4):");
         System.out.println("0. Finalitzar");
-        System.out.println("1. Esmorzar (10€)");
-        System.out.println("2. Gimnàs (15€)");
-        System.out.println("3. Spa (20€)");
-        System.out.println("4. Piscina (25€)");
+        System.out.println("1. Esmorzar (10\u20AC)");
+        System.out.println("2. Gimnàs (15\u20AC)");
+        System.out.println("3. Spa (20\u20AC)");
+        System.out.println("4. Piscina (25\u20AC)");
    
         //bucle do while
         String respuesta;
@@ -318,7 +318,7 @@ public class App {
         for (int i = 0; i < serveisSeleccionats.size(); i++) {
             String servei = serveisSeleccionats.get(i);
             Float preu = preusServeis.get(servei);
-            System.out.print(servei + " (" + preu + "€)");
+            System.out.print(servei + " (" + preu + "\u20AC)");
             //para que aparezca con comas y no imprima la ultima
                 if (i < serveisSeleccionats.size() - 1) {
                     System.out.print(", ");
@@ -338,11 +338,11 @@ public class App {
                 preuTotal += preuServei;
             }
         }
-        System.out.println("Subtotal: "+preuTotal+"€");
+        System.out.println("Subtotal: "+preuTotal+"\u20AC");
         Float preuIVA=preuTotal*IVA;
         Float preuTotalIVA=preuTotal+preuIVA;
-        System.out.println("IVA (21%): "+preuIVA+"€");
-        System.out.println("TOTAL: "+preuTotalIVA+"€");
+        System.out.println("IVA (21%): "+preuIVA+"\u20AC");
+        System.out.println("TOTAL: "+preuTotalIVA+"\u20AC");
         return preuTotalIVA;
     }
 
@@ -394,14 +394,24 @@ public class App {
      */
     public static void consultarDisponibilitat() {
         // TODO: Mostrar lliures i ocupades
+    System.out.println("\n===== DISPONIBILITAT D'HABITACIONS ====="); 
+    //hab lliures es igual al disponible
+ // Capacitats inicials
+   
+    //hab ocupadas es el total menos el disponible
+    System.out.println("\nTipus: "+TIPUS_ESTANDARD+" \tLliures: "+disponibilitatHabitacions.get(TIPUS_ESTANDARD)+" \tOcupades: "+(capacitatInicial.get(TIPUS_ESTANDARD)-disponibilitatHabitacions.get(TIPUS_ESTANDARD))); 
+    System.out.println("\nTipus: "+TIPUS_SUITE+" \tLliures: "+disponibilitatHabitacions.get(TIPUS_SUITE)+" \tOcupades: "+(capacitatInicial.get(TIPUS_SUITE)-disponibilitatHabitacions.get(TIPUS_SUITE)));
+    System.out.println("\nTipus: "+TIPUS_DELUXE+" \tLliures: "+disponibilitatHabitacions.get(TIPUS_DELUXE)+" \tOcupades: "+(capacitatInicial.get(TIPUS_DELUXE)-disponibilitatHabitacions.get(TIPUS_DELUXE)));
     }
 
     /**
+     * Tipus	Lliures	Ocupades
      * Funció recursiva. Mostra les dades de totes les reserves
      * associades a un tipus d'habitació.
      */
     public static void llistarReservesPerTipus(int[] codis, String tipus) {
          // TODO: Implementar recursivitat
+        
     }
 
     /**
@@ -410,7 +420,10 @@ public class App {
     public static void obtindreReserva() {
         System.out.println("\n===== CONSULTAR RESERVA =====");
         // TODO: Mostrar dades d'una reserva concreta
- 
+        System.out.println("\nIntrodueix el codi de reserva:");
+        int codi = sc.nextInt();
+            sc.nextLine(); // limpiar buffer
+        mostrarDadesReserva(codi);
     }
 
     /**
@@ -427,8 +440,19 @@ public class App {
      */
     public static void mostrarDadesReserva(int codi) {
        // TODO: Imprimir tota la informació d'una reserva
-    }
-
+        if(reserves.containsKey(codi)) {
+            System.out.println("\nDades de la reserva:");
+            System.out.println("\nTipus d'habitació: "+reserves.get(codi).get(0));
+            System.out.println("\nCost total: "+reserves.get(codi).get(1)+"€");
+            System.out.println("\nServeis addicionals:");
+            // Servicios desde la posición 2 en adelante
+                for (int i = 2; i < reserves.get(codi).size(); i++) {
+                    if (reserves.get(codi).get(i) != null && !reserves.get(codi).get(i).isEmpty()) {
+                    System.out.println("          * " + reserves.get(codi).get(i));
+                    }
+                }
+        } else {System.out.println("\nNo s'ha trobat cap reserva amb aquest codi.");}
+}
     // --------- MÈTODES AUXILIARS (PER MILLORAR LEGIBILITAT) ---------
 
     /**
